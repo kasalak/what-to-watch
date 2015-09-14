@@ -1,4 +1,5 @@
 import csv
+import math
 
 all_movies = {} # Movie objects go in here
 all_users = {} #  User objects go in here
@@ -9,6 +10,16 @@ class User:
         self.id = user_id
         all_users[self.id] = self
         self.ratings = {}
+
+    def add_rating(self, rating):
+        self.ratings[rating.movie_id] = rating
+
+    def get_ratings(self):
+        return self.ratings.values()
+
+
+    #def similar_users_list(self)
+
 
 
 class Movie:
@@ -24,10 +35,11 @@ class Movie:
     def add_rating(self, rating):
         self.ratings[rating.user_id] = rating
 
-
     def get_ratings(self):
         return self.ratings.values() # look at ipython in terminal, pretty cool
 
+    def get_average_rating(self):
+        return sum(self.get_rating)
     def __str__(self):
         return 'Movie(movie_id={}, title={})'.format(self.movie_id, repr(self.title))
 
@@ -65,3 +77,21 @@ def ratings_list():
         reader = csv.DictReader(f, fieldnames=('user_id', 'movie_id', 'rating'), delimiter = 'space')
         for row in reader:
             Rating(row('user_id'), row('movie_id'), row('rating'))
+def get_top_fifty(num=50, all_movies =all_movies):
+    top_movies = {}
+    for x in all_movies:
+        if len(all_movies[x].get_movie_ratings()) > 5:
+            top_movies[x] = all_movies[x].get_average_rating()
+
+def euclidean_distance(user_1, user_2):
+    """Given two lists, give the Euclidean distance between them on a scale
+    of 0 to 1. 1 means the two lists are identical.
+    """
+    # Guard against empty lists.
+    if len(user_1) is 0:
+        return 0
+    # Note that this is the same as vector subtraction.
+    differences = [user_1[idx] - user_2[idx] for idx in range(len(v))]
+    squares = [diff ** 2 for diff in differences]
+    sum_of_squares = sum(squares)
+    return 1 / (1 + math.sqrt(sum_of_squares))
