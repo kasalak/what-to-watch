@@ -39,3 +39,19 @@ def test_find_ratings_for_movie():
     print (len(toy_story_ratings))
     print(toy_story_ratings)
     assert len(toy_story_ratings) == 2
+
+def test_find_ratings_for_user():
+    siskels_ratings = all_users[siskel.id].get_ratings()
+    print(siskels_ratings)
+    assert len(siskels_ratings) == 2
+
+# def test_get_average_rating_for_movie():
+#     print(movie1.get_average_rating())
+#     assert movie1.get_average_rating == 2.5
+#     assert movie2.get_average_rating == 2 #every int can be compared to float
+
+
+
+# def test_find_movies_by_id():
+#     toy_story_id = all.movies[movie_title].get_ratings()
+#     print(toy_story)
